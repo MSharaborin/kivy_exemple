@@ -1,0 +1,59 @@
+<ApplicationMAin>:
+    label_name: label_name
+    label_total: label_total
+    count_text: count_text
+    input_text: input_text
+    canvas.before:
+        Color:
+            rgba: 1,0.5,0.5,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        id: label_name
+        text: 'Count'
+        font_size: 70
+        outline_width: 3
+    TextInput:
+        id: count_text
+        background_color: 1,0.5,0.5,1
+        font_size: 22
+        canvas.before:
+            Color:
+                rgba: 255, 255, 255, 1
+    Label:
+        id: label_total
+        text: 'Text'
+        font_size: 70
+        outline_width: 3
+    TextInput:
+        id: input_text
+        background_color: 1,0.5,0.5,1
+        font_size: 22
+        canvas.before:
+            Color:
+                rgba: 255, 255, 255, 1
+    Button:
+        text: 'Ok'
+        font_size: 50
+        on_release: root.on_click_ok(label_name, count_text)
+        background_color: 0.93, 0.55, 0.59
+        outline_width: 3
+    Button:
+        text: 'Cancel'
+        font_size: 50
+        on_release: root.canceled(label_total)
+        background_color: 0.93, 0.55, 0.59
+        outline_width: 3
+        border: (10,10,10,10)
+
+
+<Error>:
+    error_text: error_text
+    Label:
+        id: error_text
+        text: '(Заполните поле count целым числом)'
+        font_size: 22
+    Button:
+        text: 'Cancel'
+        on_release: app.root.popup.dismiss()
