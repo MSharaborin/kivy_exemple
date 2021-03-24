@@ -3,10 +3,9 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
+from kivy.config import Config
 
-
-class Result(GridLayout):
-    pass
+import json
 
 
 class Error(GridLayout):
@@ -22,8 +21,10 @@ class ApplicationMAin(GridLayout):
         super(ApplicationMAin, self).__init__(**kwargs)
         self.cols = 2
         self.val = 0
+        self.read_config()
 
     def on_click_ok(self, *args):
+        self.save_config()
         if self.count_text.text:
             # Clock.schedule_interval(self.on_click_ok, 1)
             for _ in range(int(self.count_text.text)):
@@ -46,9 +47,21 @@ class ApplicationMAin(GridLayout):
                       size_hint=(None, None), size=(500, 200))
         self.popup.open()
 
+    def save_config(self, *args):
+        data = {}
+        data['count'] = self.count_text.text
+        data['text'] = self.input_text.text
+        with open("save.json", "w") as write_file:
+            json.dump(data, write_file)
+
+    def read_config(self, *args):
+        with open('save.json', 'r') as read_file:
+            data = json.load(read_file)
+            self.count_text.text = data.get('count', None)
+            self.input_text.text = data.get('text', None)
+
 
 class ApplicationMAinApp(App):
-
     def build(self):
         return ApplicationMAin()
 
