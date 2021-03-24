@@ -5,6 +5,10 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
 
+class Result(GridLayout):
+    pass
+
+
 class Error(GridLayout):
 
     def __init__(self, **kwargs):
@@ -20,18 +24,21 @@ class ApplicationMAin(GridLayout):
         self.val = 0
 
     def on_click_ok(self, *args):
-        print(self.count_text.text)
         if self.count_text.text:
             # Clock.schedule_interval(self.on_click_ok, 1)
             for _ in range(int(self.count_text.text)):
-                print(_)
-                self.add_widget(Label(text=self.input_text.text))
+                self.bat = Label(text=self.input_text.text + str(_))
+                self.add_widget(self.bat)
         else:
             self.show_popup()
 
     def canceled(self, *args):
-        self.label_total.text = f'Total: {str(self.val)}'
-        Clock.unschedule(self.on_click_ok)
+        self.label_total.text = f'Total: {str(self.count_text.text)}'
+        if len(self.children) > 6:
+            ct = int(len(self.children)) - 6
+            for child in self.children[:ct]:
+                self.remove_widget(child)
+        # Clock.unschedule(self.on_click_ok)
 
     def show_popup(self, *args):
         show = Error()
